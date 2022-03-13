@@ -1,15 +1,15 @@
 # rewal
 ## About
 `rewal` is a Python 3 program forked from [wallpaper-reddit ](https://github.com/markubiak/wallpaper-reddit) that sets your wallpaper to the top image of one or multiple subreddits.  Version 3 has introduced many changes, such as the removal of all external dependencies, automatic DE detection for wallpaper setting, and proper setup using setuptools.  
-
+e
 ## Installation
 1. `pip install pipx`
 2. `pipx install rewal`
-
-## Update
+ll
+## How to update
 `pipx upgrade rewal`
 
-~~## Installation~~
+## ~~Installation~~
 RPMs for Fedora 23, Fedora 24, Ubuntu 16.04/Linux Mint 18 can be found on the [Releases Page] (https://github.com/markubiak/wallpaper-reddit/releases)  
 
 Users of Ubuntu derivatives <16.04 will have to build from source, as the version of PIL shipped with those versions of Ubuntu is outdated.  
