@@ -1,20 +1,20 @@
 from setuptools import setup, find_packages
-
+__version__ = '3.1.1'
 setup(
-        name='wallpaper-reddit',
-        version='3.1.1',
+        name='rewal',
+        version=__version__,
         packages=find_packages(),
-        url='https://www.github.com/markubiak/wallpaper-reddit',
-        author='Mark Kubiak',
-        author_email='mkubiak.dev@gmail.com',
+        url='https://www.github.com/iamtalhaasghar/rewal',
+        author='Talha Asghar',
+        author_email='talhaasghar.contact@simplelogin.fr',
         description='A utility that downloads wallpapers from reddit',
-        install_requires=['Pillow>=3.0'],
+        install_requires=[i for i in open('requirements.txt').readlines() if len(i)!=0],
         package_data={
             'wpreddit': ['fonts/*.otf', 'conf_files/*.conf', 'conf_files/*.desktop']
         },
         entry_points={
             'console_scripts': [
-                'wallpaper-reddit = wpreddit.main:run'
+                'rewal = wpreddit.main:run'
             ]
         }
 )
