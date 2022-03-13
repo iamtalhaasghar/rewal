@@ -1,11 +1,15 @@
-# NOTICE  
-I have not recently had the time to maintain and bug fix this project. Thus, I have put the repo into readonly mode. I am seeking for a developer that is willing to maintain this project and potentially implement new features. Please reach out to me at mkubiak dot dev at gmail dot com if you are interested in taking over the project and have good DevOps/Python experience. I'm happy to point to actively maintained forks, and someone could wrap up the v4 branch if they have time. It's very close to completion.
-
-# wallpaper-reddit
+# rewal
 ## About
-wallpaper-reddit is a Python 3 program that sets your wallpaper to the top image of one or multiple subreddits.  Version 3 has introduced many changes, such as the removal of all external dependencies, automatic DE detection for wallpaper setting, and proper setup using setuptools.  
+`rewal` is a Python 3 program forked from [wallpaper-reddit ](https://github.com/markubiak/wallpaper-reddit) that sets your wallpaper to the top image of one or multiple subreddits.  Version 3 has introduced many changes, such as the removal of all external dependencies, automatic DE detection for wallpaper setting, and proper setup using setuptools.  
 
 ## Installation
+1. `pip install pipx`
+2. `pipx install rewal`
+
+## Update
+`pipx upgrade rewal`
+
+~~## Installation~~
 RPMs for Fedora 23, Fedora 24, Ubuntu 16.04/Linux Mint 18 can be found on the [Releases Page] (https://github.com/markubiak/wallpaper-reddit/releases)  
 
 Users of Ubuntu derivatives <16.04 will have to build from source, as the version of PIL shipped with those versions of Ubuntu is outdated.  
@@ -27,11 +31,11 @@ From Source:
 ## Usage
 The script is very simple to use.  Simply type:  
 
-  `wallpaper-reddit [subreddits]`  
+  `rewal [subreddits]`  
   
 If no subreddits are specified, the script will default to the top image from the subs section of the config file.  There are many, many more options, all of which you can see by typing:  
 
-  `wallpaper-reddit --help`  
+  `rewal --help`  
 
 ## Configuration  
 The config file is in `~/.config/wallpaper-reddit`, and will be created automatically.  Currently, the GNOME, XFCE, MATE, Unity, and Cinnamon Desktop Environments should be automatically detected and the program should set the wallpaper without any extra work.  However, due to the varying nature of window managers, it is possible, even likely, that you may have to specify a custom command to set your wallpaper.  The program will prompt you for this if this is the case; the exact command can be researched per desktop environment.  If your desktop environment is not supported, please file an issue so that automatic support can be implemented for others.  
@@ -73,4 +77,4 @@ Because more information is always better, much more than the wallpaper itself e
 - `external.sh` is a bash script that is run at the end of every execution of the script (Linux only).  Any extra commands to deal with the wallpaper can be safely placed in this bash script.  I personally have mine darken my xfce4-panel if the wallpaper is too bright at the top, and set the wallpaper as my SLiM/xscreensaver background.
 
 ## Contact
-If there is an issue with the program, please file a GitHub issue.  If you need more specific help troubleshooting a specific desktop or have an issue that isn't worthy of GitHub, feel free to reach out to me via email: mkubiak.dev at gmail dot com
+If there is an issue with the program, please file a GitHub issue.
