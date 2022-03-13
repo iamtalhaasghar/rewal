@@ -1,11 +1,11 @@
 # rewal
 ## About
-`rewal` is a Python 3 program forked from [wallpaper-reddit ](https://github.com/markubiak/wallpaper-reddit) that sets your wallpaper to the top image of one or multiple subreddits.  Version 3 has introduced many changes, such as the removal of all external dependencies, automatic DE detection for wallpaper setting, and proper setup using setuptools.  
-e
+`rewal` is a Python 3 program forked from [wallpaper-reddit ](https://github.com/markubiak/wallpaper-reddit) that sets your wallpaper to the top image of one or multiple subreddits.  Version 3 has introduced many changes, such as the removal of all external dependencies, automatic DE detection for wallpaper setting, and proper setup using setuptools.
+
 ## Installation
 1. `pip install pipx`
 2. `pipx install rewal`
-ll
+
 ## How to update
 `pipx upgrade rewal`
 
