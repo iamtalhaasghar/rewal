@@ -4,16 +4,16 @@ import random
 import re
 import shutil
 import sys
+import pywal
 from subprocess import check_call, check_output, CalledProcessError
 
 from wpreddit import config
 
 
-def set_wallpaper():
+def set_wallpaper(path):
     if config.opsys == "Windows":
-        ctypes.windll.user32.SystemParametersInfoW(0x14, 0, config.walldir + "\\wallpaper.bmp", 0x3)
+        ctypes.windll.user32.SystemParametersInfoW(0x14, 0, path, 0x3)
     elif config.opsys == "Darwin":
-        path = os.path.expanduser(config.walldir + "/wallpaper.jpg")
         try:
             check_call(["sqlite3", "~/Library/Application Support/Dock/desktoppicture.db", "\"update",
                                    "data", "set", "value", "=", "'%s'\"" % path])
@@ -22,7 +22,7 @@ def set_wallpaper():
             print("Setting wallpaper failed.  Ensure all dependencies listen in the README are installed.")
             sys.exit(1)
     else:
-        linux_wallpaper()
+        linux_wallpaper(path)
     print("wallpaper set command was run")
 
 
@@ -31,9 +31,8 @@ def check_de(current_de, list_of_de):
     return any([de in current_de for de in list_of_de])
 
 
-def linux_wallpaper():
+def linux_wallpaper(path):
     de = os.environ.get('DESKTOP_SESSION')
-    path = os.path.expanduser(config.walldir + "/wallpaper.jpg")
     try:
         if config.setcmd != '':
             check_call(config.setcmd.split(" "))
@@ -44,17 +43,17 @@ def linux_wallpaper():
             check_call(["gsettings", "set", "org.cinnamon.desktop.background", "picture-uri",
                                    "file://%s" % path])
         elif check_de(de, ["pantheon"]):
-            # Some disgusting hacks so that Pantheon will update the wallpaper
-            # If the filename isn't changed, the wallpaper doesn't either
-            files = os.listdir(config.walldir)
-            for file in files:
-                if re.search('wallpaper[0-9]+\.jpg', file) is not None:
-                    os.remove(config.walldir + "/" + file)
-            randint = random.randint(0, 65535)
-            randpath = os.path.expanduser(config.walldir + "/wallpaper%s.jpg" % randint)
-            shutil.copyfile(path, randpath)
+            # # Some disgusting hacks so that Pantheon will update the wallpaper
+            # # If the filename isn't changed, the wallpaper doesn't either
+            # files = os.listdir(config.walldir)
+            # for file in files:
+            #     if re.search('wallpaper[0-9]+\.jpg', file) is not None:
+            #         os.remove(config.walldir + "/" + file)
+            # randint = random.randint(0, 65535)
+            # randpath = os.path.expanduser(config.walldir + "/wallpaper%s.jpg" % randint)
+            # shutil.copyfile(path, randpath)
             check_call(["gsettings", "set", "org.gnome.desktop.background", "picture-uri",
-                                   "file://%s" % randpath])
+                                   "file://%s" % path])
         elif check_de(de, ["mate"]):
             check_call(["gsettings", "set", "org.mate.background", "picture-filename",
                                    "'%s'" % path])
@@ -63,12 +62,15 @@ def linux_wallpaper():
             # xfconf props aren't 100% consistent so light workaround for that too
             props = check_output(['xfconf-query', '-c', 'xfce4-desktop', '-p', '/backdrop', '-l'])\
                     .decode("utf-8").split('\n')
+            props = [i for i in props if len(i.strip()) != 0]
             for prop in props:
-                if "last-image" in prop or "image-path" in prop:
-                    check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s", "''"])
-                    check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s" "'%s'" % path])
-                if "image-show" in prop:
-                    check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s", "'true'"])
+                if 'monitorLVDS1/workspace0/last-image' in prop:
+                    output = check_output(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s", "%s" % path])
+                # if "last-image" in prop or "image-path" in prop:
+                #     check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s", "''"])
+                #     check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop, "-s", "'%s'" % path])
+                # if "image-show" in prop:
+                #      check_call(["xfconf-query", "-c", "xfce4-desktop", "-p", prop , '-t', 'bool', "-s", "true"])
         elif check_de(de, ["lubuntu", "Lubuntu"]):
             check_call(["pcmanfm", "-w", "%s" % path])
         elif check_de(de, ["i3", "bspwm"]):
@@ -80,9 +82,9 @@ def linux_wallpaper():
                   "You need to set the 'setcommand' paramter at ~/.config/wallpaper-reddit. "
                   "When you get it working, please file an issue.")
             sys.exit(1)
-    except CalledProcessError or FileNotFoundError:
+    except CalledProcessError or FileNotFoundError as ex:
         print("Command to set wallpaper returned non-zero exit code.  Please file an issue or check your custom "
-              "command if you have set one in the configuration file.")
+              "command if you have set one in the configuration file.", ex)
         sys.exit(1)
 
 
@@ -119,3 +121,25 @@ def save_wallpaper():
         f.write('\n' + 'wallpaper' + str(wpcount) + ': ' + title)
 
     print("Current wallpaper saved to " + newpath)
+
+def call_pywal(path):
+
+    # Validate image and pick a random image if a
+    # directory is given below.
+    image = pywal.image.get(path)
+
+    # Return a dict with the palette.
+    # Set quiet to 'True' to disable notifications.
+    colors = pywal.colors.get(image)
+
+    # Apply the palette to all open terminals.
+    # Second argument is a boolean for VTE terminals.
+    # Set it to true if the terminal you're using is
+    # VTE based. (xfce4-terminal, termite, gnome-terminal.)
+    pywal.sequences.send(colors, vte_fix=True)
+
+    # Export all template files.
+    pywal.export.every(colors)
+
+    # Reload xrdb, i3 and polybar.
+    pywal.reload.env()

@@ -41,9 +41,10 @@ def run():
         if (config.lottery == True):
             random.shuffle(links)
         valid = reddit.choose_valid(links)
-        download.download_image(valid[0], valid[1])
+        file_path = download.download_image(valid[0], valid[1])
+        wallpaper.call_pywal(file_path)
         download.save_info(valid)
-        wallpaper.set_wallpaper()
+        wallpaper.set_wallpaper(file_path)
         external_script()
     except KeyboardInterrupt:
         sys.exit(1)
@@ -62,3 +63,5 @@ def external_script():
             check_call(["bash", config.walldir + "/external.sh"])
         except CalledProcessError or FileNotFoundError:
             print("external.sh did not complete successfully, check for errors.")
+if __name__ == "__main__":
+    run()

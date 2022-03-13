@@ -1,3 +1,4 @@
+import os.path
 import re
 import sys
 from PIL import Image, ImageDraw, ImageFont, ImageOps
@@ -22,12 +23,16 @@ def download_image(url, title):
         if config.settitle:
             img = set_image_title(img, title)
         if config.opsys == "Windows":
-            img.save(config.walldir + '\\wallpaper.bmp', "BMP")
+            file_path = os.path.join(config.walldir, os.path.basename(url).split('.')[0] + ".bmp")
+            img.save(file_path, "BMP")
+            return file_path
         else:
-            img.save(config.walldir + '/wallpaper.jpg', "JPEG")
+            file_path = os.path.join(config.walldir, os.path.basename(url).split('.')[0] + '.jpg')
+            img.save(file_path, "JPEG")
+            return file_path
 
-    except IOError:
-        print("Error saving image!")
+    except IOError as ex:
+        print("Error saving image!", ex)
         sys.exit(1)
 
 
