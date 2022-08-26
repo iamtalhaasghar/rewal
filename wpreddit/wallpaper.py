@@ -143,3 +143,11 @@ def call_pywal(path):
 
     # Reload xrdb, i3 and polybar.
     pywal.reload.env()
+
+def set_lockscreen_background(path):
+    '''
+    copies the downloaded wallpaper to /usr/share/backgrounds/lock_screen_bg_rewal
+    '''
+
+    lock_screen_bg = '/usr/share/backgrounds/lock_screen_bg_rewal'
+    shutil.copy(path, lock_screen_bg)
