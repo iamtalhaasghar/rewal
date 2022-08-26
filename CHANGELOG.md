@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.3 (2022-08-26)
+### Fix
+* Use .jpg file for lockscreen background ([`259f809`](https://github.com/iamtalhaasghar/rewal/commit/259f809631699fa4eb094e411e3c5db054c8d746))
+
 ## v3.2.2 (2022-08-26)
 ### Fix
 * Set lockscreen background as well ([`2cdf85c`](https://github.com/iamtalhaasghar/rewal/commit/2cdf85c33fb0e91c644921ed5aa749cadb28ab74))
