@@ -149,5 +149,5 @@ def set_lockscreen_background(path):
     copies the downloaded wallpaper to /usr/share/backgrounds/lock_screen_bg_rewal
     '''
 
-    lock_screen_bg = '/usr/share/backgrounds/lock_screen_bg_rewal'
+    lock_screen_bg = '/usr/share/backgrounds/lock_screen_bg_rewal.jpg'
     shutil.copy(path, lock_screen_bg)
