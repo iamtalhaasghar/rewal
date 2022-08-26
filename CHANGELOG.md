@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.2 (2022-08-26)
+### Fix
+* Set lockscreen background as well ([`2cdf85c`](https://github.com/iamtalhaasghar/rewal/commit/2cdf85c33fb0e91c644921ed5aa749cadb28ab74))
+
 ## v3.2.1 (2022-03-13)
 ### Fix
 * Fix typos in readme ([`cb59ca8`](https://github.com/iamtalhaasghar/rewal/commit/cb59ca85007d1bff1ae0d4a233373b3279397c8a))
