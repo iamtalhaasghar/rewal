@@ -6,9 +6,8 @@ import shutil
 import sys
 import pywal
 from subprocess import check_call, check_output, CalledProcessError
-import ksetwallpaper
 
-from wpreddit import config
+from wpreddit import config, ksetwallpaper
 
 
 def set_wallpaper(path):
