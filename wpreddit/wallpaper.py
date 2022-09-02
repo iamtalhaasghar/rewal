@@ -6,6 +6,7 @@ import shutil
 import sys
 import pywal
 from subprocess import check_call, check_output, CalledProcessError
+import ksetwallpaper
 
 from wpreddit import config
 
@@ -16,7 +17,7 @@ def set_wallpaper(path):
     elif config.opsys == "Darwin":
         try:
             check_call(["sqlite3", "~/Library/Application Support/Dock/desktoppicture.db", "\"update",
-                                   "data", "set", "value", "=", "'%s'\"" % path])
+                        "data", "set", "value", "=", "'%s'\"" % path])
             check_call(["killall", "dock"])
         except CalledProcessError or FileNotFoundError:
             print("Setting wallpaper failed.  Ensure all dependencies listen in the README are installed.")
@@ -38,10 +39,10 @@ def linux_wallpaper(path):
             check_call(config.setcmd.split(" "))
         elif check_de(de, ["gnome", "gnome-xorg", "gnome-wayland", "unity", "ubuntu", "ubuntu-xorg", "budgie-desktop"]):
             check_call(["gsettings", "set", "org.gnome.desktop.background", "picture-uri",
-                                   "file://%s" % path])
+                        "file://%s" % path])
         elif check_de(de, ["cinnamon"]):
             check_call(["gsettings", "set", "org.cinnamon.desktop.background", "picture-uri",
-                                   "file://%s" % path])
+                        "file://%s" % path])
         elif check_de(de, ["pantheon"]):
             # # Some disgusting hacks so that Pantheon will update the wallpaper
             # # If the filename isn't changed, the wallpaper doesn't either
@@ -53,15 +54,15 @@ def linux_wallpaper(path):
             # randpath = os.path.expanduser(config.walldir + "/wallpaper%s.jpg" % randint)
             # shutil.copyfile(path, randpath)
             check_call(["gsettings", "set", "org.gnome.desktop.background", "picture-uri",
-                                   "file://%s" % path])
+                        "file://%s" % path])
         elif check_de(de, ["mate"]):
             check_call(["gsettings", "set", "org.mate.background", "picture-filename",
-                                   "'%s'" % path])
+                        "'%s'" % path])
         elif check_de(de, ["xfce", "xubuntu"]):
             # Light workaround here, just need to toggle the wallpaper from null to the original filename
             # xfconf props aren't 100% consistent so light workaround for that too
-            props = check_output(['xfconf-query', '-c', 'xfce4-desktop', '-p', '/backdrop', '-l'])\
-                    .decode("utf-8").split('\n')
+            props = check_output(['xfconf-query', '-c', 'xfce4-desktop', '-p', '/backdrop', '-l']) \
+                .decode("utf-8").split('\n')
             props = [i for i in props if len(i.strip()) != 0]
             for prop in props:
                 if 'monitorLVDS1/workspace0/last-image' in prop:
@@ -75,8 +76,12 @@ def linux_wallpaper(path):
             check_call(["pcmanfm", "-w", "%s" % path])
         elif check_de(de, ["i3", "bspwm"]):
             check_call(["feh", "--bg-fill", path])
+            set_lockscreen_background(path)
         elif check_de(de, ["sway"]):
             check_call(["swaymsg", "output * bg %s fill" % path])
+        elif check_de(de, ["plasma"]):
+            ksetwallpaper.setwallpaper(path, 'com.github.zren.inactiveblur')
+            ksetwallpaper.set_lockscreen_wallpaper(path)
         elif config.setcmd == '':
             print("Your DE could not be detected to set the wallpaper. "
                   "You need to set the 'setcommand' paramter at ~/.config/wallpaper-reddit. "
@@ -112,7 +117,7 @@ def save_wallpaper():
         origpath = origpath + ('/wallpaper.jpg')
         while os.path.isfile(config.savedir + '/wallpaper' + str(wpcount) + '.jpg'):
             wpcount += 1
-        newpath = newpath + ('/wallpaper'  + str(wpcount) + '.jpg')
+        newpath = newpath + ('/wallpaper' + str(wpcount) + '.jpg')
     shutil.copyfile(origpath, newpath)
 
     with open(config.walldir + '/title.txt', 'r') as f:
@@ -122,8 +127,8 @@ def save_wallpaper():
 
     print("Current wallpaper saved to " + newpath)
 
-def call_pywal(path):
 
+def call_pywal(path):
     # Validate image and pick a random image if a
     # directory is given below.
     image = pywal.image.get(path)
@@ -144,10 +149,14 @@ def call_pywal(path):
     # Reload xrdb, i3 and polybar.
     pywal.reload.env()
 
+
 def set_lockscreen_background(path):
     '''
     copies the downloaded wallpaper to /usr/share/backgrounds/lock_screen_bg_rewal
     '''
+    try:
+        lock_screen_bg = '/usr/share/backgrounds/lock_screen_bg_rewal.jpg'
+        shutil.copy(path, lock_screen_bg)
+    except Exception as e:
+        print(e)
 
-    lock_screen_bg = '/usr/share/backgrounds/lock_screen_bg_rewal.jpg'
-    shutil.copy(path, lock_screen_bg)

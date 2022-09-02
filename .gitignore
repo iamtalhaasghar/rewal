@@ -6,3 +6,4 @@ venv
 wallpaper_reddit.egg-info
 wpreddit/__pycache__
 rewal.egg-info
+test.py
