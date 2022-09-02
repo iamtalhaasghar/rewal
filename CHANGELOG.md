@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.4 (2022-09-03)
+### Fix
+* Added KDE support ([`054f25c`](https://github.com/iamtalhaasghar/rewal/commit/054f25cae214f992320394f326149ff84e7ca6aa))
+
 ## v3.2.3 (2022-08-26)
 ### Fix
 * Use .jpg file for lockscreen background ([`259f809`](https://github.com/iamtalhaasghar/rewal/commit/259f809631699fa4eb094e411e3c5db054c8d746))
