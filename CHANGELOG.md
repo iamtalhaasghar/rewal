@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.6 (2022-09-03)
+### Fix
+* Bring back login screen background ([`117c67e`](https://github.com/iamtalhaasghar/rewal/commit/117c67e4770476b51b2fb7b5c283f8f40573c336))
+
 ## v3.2.5 (2022-09-03)
 ### Fix
 * Import ksetwallpaper bug fix ([`d6cc078`](https://github.com/iamtalhaasghar/rewal/commit/d6cc0788928181264d7138d75a37c866203566b9))
