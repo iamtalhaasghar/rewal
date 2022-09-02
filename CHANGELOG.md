@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.5 (2022-09-03)
+### Fix
+* Import ksetwallpaper bug fix ([`d6cc078`](https://github.com/iamtalhaasghar/rewal/commit/d6cc0788928181264d7138d75a37c866203566b9))
+
 ## v3.2.4 (2022-09-03)
 ### Fix
 * Added KDE support ([`054f25c`](https://github.com/iamtalhaasghar/rewal/commit/054f25cae214f992320394f326149ff84e7ca6aa))
