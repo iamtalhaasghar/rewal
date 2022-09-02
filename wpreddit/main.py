@@ -45,6 +45,7 @@ def run():
         wallpaper.call_pywal(file_path)
         download.save_info(valid)
         wallpaper.set_wallpaper(file_path)
+        wallpaper.set_loginscreen_background(file_path)
         external_script()
     except KeyboardInterrupt:
         sys.exit(1)

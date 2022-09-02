@@ -75,7 +75,7 @@ def linux_wallpaper(path):
             check_call(["pcmanfm", "-w", "%s" % path])
         elif check_de(de, ["i3", "bspwm"]):
             check_call(["feh", "--bg-fill", path])
-            set_lockscreen_background(path)
+            set_loginscreen_background(path)
         elif check_de(de, ["sway"]):
             check_call(["swaymsg", "output * bg %s fill" % path])
         elif check_de(de, ["plasma"]):
@@ -149,7 +149,7 @@ def call_pywal(path):
     pywal.reload.env()
 
 
-def set_lockscreen_background(path):
+def set_loginscreen_background(path):
     '''
     copies the downloaded wallpaper to /usr/share/backgrounds/lock_screen_bg_rewal
     '''
